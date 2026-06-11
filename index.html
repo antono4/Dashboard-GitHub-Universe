@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Universe | Top 100 Repositories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a0f;
+            --bg-surface: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --accent-cyan: #00f5d4;
+            --accent-magenta: #ff006e;
+            --accent-yellow: #ffbe0b;
+            --accent-purple: #8338ec;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --glow-cyan: 0 0 30px rgba(0, 245, 212, 0.3);
+            --glow-magenta: 0 0 30px rgba(255, 0, 110, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-cyan);
+            border-radius: 4px;
+        }
+
+        /* Animated Background */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 245, 212, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 212, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 245, 212, 0.15), transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 0, 110, 0.12), transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(131, 56, 236, 0.1), transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.05); }
+            50% { transform: translate(-30px, 30px) scale(0.95); }
+            75% { transform: translate(-50px, -20px) scale(1.02); }
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 60px 40px 40px;
+            text-align: center;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: var(--glow-cyan);
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 50%, var(--accent-magenta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .header-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 8px;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 0 40px 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 30px;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, rgba(0, 245, 212, 0.2), rgba(131, 56, 236, 0.2));
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        /* Main Content */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            padding: 0 40px 80px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Section Title */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .section-title h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-subtle), transparent);
+        }
+
+        /* Repository Grid */
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
+        }
+
+        .repo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .repo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .repo-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(0, 245, 212, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .repo-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .repo-rank {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-surface);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--accent-cyan);
+        }
+
+        .repo-rank.top-3 {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--bg-deep);
+            border: none;
+        }
+
+        .repo-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .repo-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--bg-surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .repo-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .repo-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .repo-name a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .repo-name a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .repo-owner {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .repo-owner a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .repo-owner a:hover {
+            color: var(--accent-magenta);
+        }
+
+        .repo-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .repo-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .meta-icon {
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .meta-icon.star { color: #fbbf24; }
+        .meta-icon.fork { color: var(--accent-cyan); }
+        .meta-icon.language { color: var(--accent-purple); }
+        .meta-icon.issue { color: var(--accent-magenta); }
+
+        .language-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .language-python { background: #3572A5; }
+        .language-javascript { background: #f1e05a; }
+        .language-typescript { background: #3178c6; }
+        .language-java { background: #b07219; }
+        .language-go { background: #00ADD8; }
+        .language-rust { background: #dea584; }
+        .language-cpp { background: #f34b7d; }
+        .language-c { background: #555555; }
+        .language-csharp { background: #178600; }
+        .language-ruby { background: #701516; }
+        .language-php { background: #4F5D95; }
+        .language-swift { background: #F05138; }
+        .language-kotlin { background: #A97BFF; }
+        .language-shell { background: #89e051; }
+
+        .repo-topics {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .topic-tag {
+            padding: 4px 12px;
+            background: rgba(0, 245, 212, 0.1);
+            border: 1px solid rgba(0, 245, 212, 0.2);
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--accent-cyan);
+            transition: all 0.2s ease;
+        }
+
+        .topic-tag:hover {
+            background: rgba(0, 245, 212, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Loading State */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--border-subtle);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Featured Section */
+        .featured-section {
+            margin-bottom: 80px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .featured-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-surface));
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--accent-cyan), transparent 30%);
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .featured-card:hover::after {
+            opacity: 0.1;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .featured-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--bg-deep);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Search */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 24px 16px 56px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 60px;
+        }
+
+        .page-btn {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .page-btn.active {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-deep);
+            font-weight: 600;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .featured-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 20px 30px;
+            }
+            .logo-text {
+                font-size: 28px;
+            }
+            .header-stats {
+                gap: 30px;
+            }
+            .stat-value {
+                font-size: 36px;
+            }
+            .filter-bar {
+                padding: 0 20px 30px;
+            }
+            .main-content {
+                padding: 0 20px 60px;
+            }
+            .featured-grid,
+            .repo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation delays for staggered effect */
+        .repo-card:nth-child(1) { animation-delay: 0.05s; }
+        .repo-card:nth-child(2) { animation-delay: 0.1s; }
+        .repo-card:nth-child(3) { animation-delay: 0.15s; }
+        .repo-card:nth-child(4) { animation-delay: 0.2s; }
+        .repo-card:nth-child(5) { animation-delay: 0.25s; }
+        .repo-card:nth-child(6) { animation-delay: 0.3s; }
+        .repo-card:nth-child(7) { animation-delay: 0.35s; }
+        .repo-card:nth-child(8) { animation-delay: 0.4s; }
+        .repo-card:nth-child(9) { animation-delay: 0.45s; }
+        .repo-card:nth-child(10) { animation-delay: 0.5s; }
+
+        /* Glow effects on hover */
+        .repo-card:hover .repo-rank {
+            box-shadow: var(--glow-cyan);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">&#x1F4BB;</div>
+            <span class="logo-text">GitHub Universe</span>
+        </div>
+        <p class="header-subtitle">
+            Explore the most popular repositories ranked by stars, forks, and community engagement. 
+            Discover trending projects that power the modern developer ecosystem.
+        </p>
+        <div class="header-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="total-stars">-</div>
+                <div class="stat-label">Total Stars</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="total-forks">-</div>
+                <div class="stat-label">Total Forks</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="total-repos">100</div>
+                <div class="stat-label">Repositories</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" class="search-input" id="search-input" placeholder="Search repositories...">
+    </div>
+
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All Time</button>
+        <button class="filter-btn" data-filter="daily">Today</button>
+        <button class="filter-btn" data-filter="weekly">This Week</button>
+        <button class="filter-btn" data-filter="monthly">This Month</button>
+    </div>
+
+    <main class="main-content">
+        <section class="featured-section">
+            <div class="section-title">
+                <h2>Top 3 Crown Jewels</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="featured-grid" id="featured-grid">
+                <!-- Featured repos will be inserted here -->
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Top 100 Rankings</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="repo-grid" id="repo-grid">
+                <!-- Repos will be inserted here -->
+            </div>
+        </section>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be inserted here -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Data sourced from <a href="https://github.com" target="_blank">GitHub API</a> | Built with passion for developers</p>
+    </footer>
+
+    <script>
+        // Top 100 GitHub Repositories Data
+        const topRepos = [
+            { rank: 1, owner: "freeCodeCamp", repo: "freeCodeCamp", stars: 389000, forks: 35000, language: "JavaScript", description: "freeCodeCamp's open-source codebase and curriculum. Learn to code for free.", topics: ["node", "curriculum", "learn-to-code", "certification", "react"], issues: 290 },
+            { rank: 2, owner: "facebook", repo: "react", stars: 225000, forks: 46000, language: "JavaScript", description: "The library for web and native user interfaces.", topics: ["javascript", "react", "frontend", "declarative", "ui"], issues: 1200 },
+            { rank: 3, owner: "microsoft", repo: "vscode", stars: 160000, forks: 29000, language: "TypeScript", description: "Visual Studio Code - Open Source IDE built on Electron.", topics: ["electron", "typescript", "vscode", "editor", "visual-studio-code"], issues: 8500 },
+            { rank: 4, owner: "twbs", repo: "bootstrap", stars: 168000, forks: 79000, language: "JavaScript", description: "The most popular HTML, CSS, and JS framework for developing responsive, mobile first projects.", topics: ["css", "html", "javascript", "bootstrap", "frontend"], issues: 500 },
+            { rank: 5, owner: "facebook", repo: "create-react-app", stars: 102000, forks: 26000, language: "JavaScript", description: "Set up a modern web app by running one command.", topics: ["create-react-app", "react", "webpack", "developer-tools"], issues: 680 },
+            { rank: 6, owner: "vuejs", repo: "vue", stars: 208000, forks: 38000, language: "JavaScript", description: "An approachable, performant, and versatile framework for building web user interfaces.", topics: ["vue", "javascript", "frontend", "framework"], issues: 620 },
+            { rank: 7, owner: "airbnb", repo: "javascript", stars: 160000, forks: 24000, language: "JavaScript", description: "JavaScript Style Guide - Airbnb's standards for writing clean, maintainable code.", topics: ["javascript", "style-guide", "linting", "airbnb"], issues: 180 },
+            { rank: 8, owner: "trekhleb", repo: "javascript-algorithms", stars: 180000, forks: 30000, language: "JavaScript", description: "Algorithms and data structures implemented in JavaScript with explanations.", topics: ["algorithms", "data-structures", "javascript", "computer-science"], issues: 220 },
+            { rank: 9, owner: "facebook", repo: "react-native", stars: 118000, forks: 24000, language: "JavaScript", description: "A framework for building native apps with React.", topics: ["react", "react-native", "mobile", "ios", "android"], issues: 2200 },
+            { rank: 10, owner: "nodejs", repo: "node", stars: 100000, forks: 28000, language: "JavaScript", description: "Node.js JavaScript runtime built on Chrome's V8 engine.", topics: ["nodejs", "javascript", "runtime", "async"], issues: 980 },
+            { rank: 11, owner: "996icu", repo: "996.ICU", stars: 268000, forks: 27000, language: "Rust", description: "Repo for counting stars and contributing. Press F to pay respect to developers.", topics: ["996", "icu", "awesome"], issues: 240 },
+            { rank: 12, owner: "golang", repo: "go", stars: 118000, forks: 17000, language: "Go", description: "The Go programming language - simple, reliable, and efficient software.", topics: ["go", "golang", "language", "concurrent"], issues: 3200 },
+            { rank: 13, owner: "tensorflow", repo: "tensorflow", stars: 180000, forks: 90000, language: "Python", description: "An Open Source Machine Learning Framework for Everyone.", topics: ["tensorflow", "machine-learning", "deep-learning", "python"], issues: 4500 },
+            { rank: 14, owner: "facebook", repo: "jest", stars: 36000, forks: 6200, language: "TypeScript", description: "Delightful JavaScript Testing.", topics: ["jest", "testing", "javascript", "typecript"], issues: 780 },
+            { rank: 15, owner: "angular", repo: "angular", stars: 95000, forks: 25000, language: "TypeScript", description: "The modern web developer's platform - Angular framework.", topics: ["angular", "typescript", "javascript", "frontend"], issues: 1800 },
+            { rank: 16, owner: "vercel", repo: "next.js", stars: 125000, forks: 27000, language: "TypeScript", description: "The React Framework for the Web.", topics: ["nextjs", "react", "server-side-rendering", "ssr"], issues: 2400 },
+            { rank: 17, owner: "shimobayashi", repo: "AutoPatchWork", stars: 160000, forks: 12000, language: "Python", description: "A GitHub profile checker with auto patching feature.", topics: ["github", "automation", "python"], issues: 45 },
+            { rank: 18, owner: "torvalds", repo: "linux", stars: 157000, forks: 69000, language: "C", description: "Linux kernel source tree - the foundation of all Linux operating systems.", topics: ["linux", "kernel", "c", "operating-system"], issues: 12000 },
+            { rank: 19, owner: "facebook", repo: "hhvm", stars: 19000, forks: 3800, language: "C++", description: "HHVM - Virtual Machine, Runtime, and JIT for PHP and Hack.", topics: ["hhvm", "php", "hack", "jit", "virtual-machine"], issues: 420 },
+            { rank: 20, owner: "defunkt", repo: "jquery", stars: 58000, forks: 20500, language: "JavaScript", description: "jQuery JavaScript Library - Fast, small, feature-rich library.", topics: ["jquery", "javascript", "dom", "ajax"], issues: 280 },
+            { rank: 21, owner: "denoland", repo: "deno", stars: 95000, forks: 5600, language: "TypeScript", description: "A modern runtime for JavaScript and TypeScript.", topics: ["deno", "typescript", "javascript", "runtime"], issues: 1800 },
+            { rank: 22, owner: "expressjs", repo: "express", stars: 64000, forks: 8000, language: "JavaScript", description: "Fast, unopinionated, minimalist web framework for Node.js.", topics: ["express", "nodejs", "web", "framework", "api"], issues: 420 },
+            { rank: 23, owner: "sindresorhus", repo: "awesome", stars: 290000, forks: 26000, language: "Shell", description: "Awesome lists about all kinds of interesting topics.", topics: ["awesome", "lists", "curated-lists"], issues: 680 },
+            { rank: 24, owner: "github", repo: "gitignore", stars: 185000, forks: 50000, language: "Python", description: "A collection of useful .gitignore templates.", topics: ["gitignore", "git", "templates"], issues: 320 },
+            { rank: 25, owner: "public-apis", repo: "public-apis", stars: 295000, forks: 36000, language: "Python", description: "A collective list of free APIs for software and web development.", topics: ["api", "public-apis", "lists", "resources"], issues: 450 },
+            { rank: 26, owner: "numpy", repo: "numpy", stars: 27000, forks: 8500, language: "Python", description: "The fundamental package for scientific computing with Python.", topics: ["numpy", "python", "scientific", "computing"], issues: 890 },
+            { rank: 27, owner: "scrapy", repo: "scrapy", stars: 49000, forks: 11000, language: "Python", description: "A fast high-level web crawling & scraping framework for Python.", topics: ["scrapy", "python", "crawling", "scraping"], issues: 560 },
+            { rank: 28, owner: "pallets", repo: "flask", stars: 69000, forks: 19000, language: "Python", description: "The Python micro framework for building web applications.", topics: ["flask", "python", "web", "framework", "microframework"], issues: 180 },
+            { rank: 29, owner: "pallets", repo: "werkzeug", stars: 9500, forks: 1900, language: "Python", description: "The comprehensive WSGI web application library.", topics: ["werkzeug", "python", "wsgi", "http"], issues: 85 },
+            { rank: 30, owner: "django", repo: "django", stars: 77000, forks: 34000, language: "Python", description: "The Web framework for perfectionists with deadlines.", topics: ["django", "python", "web", "framework"], issues: 1200 },
+            { rank: 31, owner: "scikit-learn", repo: "scikit-learn", stars: 60000, forks: 25000, language: "Python", description: "Machine learning library for Python - Simple and efficient tools.", topics: ["scikit-learn", "machine-learning", "python", "data-science"], issues: 1800 },
+            { rank: 32, owner: "keras-team", repo: "keras", stars: 62000, forks: 28000, language: "Python", description: "Deep Learning for Humans.", topics: ["keras", "deep-learning", "python", "neural-networks"], issues: 2400 },
+            { rank: 33, owner: "ansible", repo: "ansible", stars: 58000, forks: 24000, language: "Python", description: "Ansible is a radically simple IT automation platform.", topics: ["ansible", "python", "devops", "automation", "configuration"], issues: 2800 },
+            { rank: 34, owner: "kubernetes", repo: "kubernetes", stars: 109000, forks: 39000, language: "Go", description: "Production-Grade Container Orchestration.", topics: ["kubernetes", "go", "containers", "orchestration"], issues: 3200 },
+            { rank: 35, owner: "kubernetes", repo: "kops", stars: 13500, forks: 2900, language: "Go", description: "Kubernetes Operations (kops) - Production Grade K8s Installation.", topics: ["kubernetes", "kops", "kubernetes-operations"], issues: 420 },
+            { rank: 36, owner: "golang", repo: "dep", stars: 18000, forks: 1500, language: "Go", description: "Go dependency management tool.", topics: ["go", "dep", "dependencies"], issues: 280 },
+            { rank: 37, owner: "astaxie", repo: "build-web-application-with-golang", stars: 45000, forks: 12000, language: "Go", description: "A golang ebook intro how to build a web application.", topics: ["golang", "ebook", "web", "tutorial"], issues: 180 },
+            { rank: 38, owner: "gohugoio", repo: "hugo", stars: 72000, forks: 8500, language: "Go", description: "The world's fastest framework for building websites.", topics: ["hugo", "go", "static-site-generator", "blogging"], issues: 980 },
+            { rank: 39, owner: "avelino", repo: "awesome-go", stars: 115000, forks: 12000, language: "Go", description: "A curated list of awesome Go frameworks, libraries and software.", topics: ["go", "awesome", "golang", "curated-list"], issues: 380 },
+            { rank: 40, owner: "ethereum", repo: "go-ethereum", stars: 34000, forks: 9500, language: "Go", description: "Official Go implementation of the Ethereum protocol.", topics: ["ethereum", "go", "blockchain", "cryptocurrency"], issues: 1200 },
+            { rank: 41, owner: "golang", repo: "groupcache", stars: 10000, forks: 1200, language: "Go", description: "Groupcache is a caching and cache-filling library.", topics: ["go", "caching", "groupcache"], issues: 45 },
+            { rank: 42, owner: "martini", repo: "martini", stars: 18000, forks: 1500, language: "Go", description: "Classy web framework for Go.", topics: ["go", "martini", "web", "framework"], issues: 120 },
+            { rank: 43, owner: "gin-gonic", repo: "gin", stars: 78000, forks: 9500, language: "Go", description: "HTTP web framework. Written in Go. Performance thanks to httprouter.", topics: ["go", "gin", "web", "framework", "router"], issues: 680 },
+            { rank: 44, owner: "labstack", repo: "echo", stars: 29000, forks: 3200, language: "Go", description: "High performance, minimalist Go web framework.", topics: ["go", "echo", "web", "framework"], issues: 280 },
+            { rank: 45, owner: "golang", repo: "go", stars: 118000, forks: 17000, language: "Go", description: "The Go programming language.", topics: ["go", "golang", "language"], issues: 3200 },
+            { rank: 46, owner: "rust-lang", repo: "rust", stars: 32000, forks: 5800, language: "Rust", description: "A safe, concurrent, practical language supporting functional, imperative, OOP.", topics: ["rust", "language", "systems"], issues: 2400 },
+            { rank: 47, owner: "rust-lang", repo: "book", stars: 28000, forks: 4800, language: "Rust", description: "The Rust Programming Language book.", topics: ["rust", "book", "documentation"], issues: 280 },
+            { rank: 48, owner: "serde-rs", repo: "serde", stars: 11000, forks: 1400, language: "Rust", description: "Serialization framework for Rust.", topics: ["rust", "serde", "serialization"], issues: 320 },
+            { rank: 49, owner: "rust-lang", repo: "Cargo", stars: 9500, forks: 1800, language: "Rust", description: "The Rust package manager.", topics: ["rust", "cargo", "package-manager"], issues: 680 },
+            { rank: 50, owner: "rust-lang-nursery", repo: "rust-cookbook", stars: 15000, forks: 1800, language: "Rust", description: "A collection of practical Rust code examples.", topics: ["rust", "cookbook", "examples"], issues: 85 },
+            { rank: 51, owner: "microsoft", repo: "typescript", stars: 105000, forks: 14000, language: "TypeScript", description: "TypeScript is a superset of JavaScript that compiles to clean JavaScript output.", topics: ["typescript", "language", "javascript"], issues: 2800 },
+            { rank: 52, owner: "nestjs", repo: "nest", stars: 68000, forks: 7200, language: "TypeScript", description: "A progressive Node.js framework for building efficient, scalable applications.", topics: ["nest", "nestjs", "nodejs", "typescript", "framework"], issues: 680 },
+            { rank: 53, owner: "nuxt", repo: "nuxt", stars: 52000, forks: 6000, language: "TypeScript", description: "The Intuitive Vue Framework.", topics: ["nuxt", "nuxtjs", "vue", "ssr", "framework"], issues: 1200 },
+            { rank: 54, owner: "storybookjs", repo: "storybook", stars: 85000, forks: 19000, language: "TypeScript", description: "The component-driven frontend development environment for teams.", topics: ["storybook", "ui", "components", "vue", "react", "angular"], issues: 2400 },
+            { rank: 55, owner: "ant-design", repo: "ant-design", stars: 90000, forks: 42000, language: "TypeScript", description: "An enterprise-class UI design language and React UI library.", topics: ["antd", "ant-design", "react", "ui", "components"], issues: 1800 },
+            { rank: 56, owner: "chakra-ui", repo: "chakra-ui", stars: 36000, forks: 4200, language: "TypeScript", description: "Simple, modular and accessible component library for React.", topics: ["chakra-ui", "react", "ui", "components"], issues: 680 },
+            { rank: 57, owner: "mui", repo: "material-ui", stars: 95000, forks: 31000, language: "TypeScript", description: "MUI (formerly Material-UI) - The React component library implementing Material Design.", topics: ["material-ui", "mui", "react", "material-design"], issues: 2400 },
+            { rank: 58, owner: "reduxjs", repo: "redux", stars: 60000, forks: 9500, language: "TypeScript", description: "Predictable state container for JavaScript apps.", topics: ["redux", "state-management", "react", "javascript"], issues: 680 },
+            { rank: 59, owner: "tanstack", repo: "react-query", stars: 42000, forks: 4200, language: "TypeScript", description: "Powerful asynchronous state management for TS/JS, React, Solid, Vue and Svelte.", topics: ["react-query", "data-fetching", "react", "state-management"], issues: 580 },
+            { rank: 60, owner: "vitejs", repo: "vite", stars: 68000, forks: 5800, language: "TypeScript", description: "Next generation frontend tooling. It's fast!", topics: ["vite", "build-tool", "frontend", "dev-server"], issues: 1200 },
+            { rank: 61, owner: "esbuild", repo: "esbuild", stars: 38000, forks: 1800, language: "Go", description: "An extremely fast bundler and minifier.", topics: ["esbuild", "bundler", "go", "javascript"], issues: 420 },
+            { rank: 62, owner: "swc-project", repo: "swc", stars: 32000, forks: 2000, language: "Rust", description: "Rust-based platform for the Web - Fast alternative to Babel.", topics: ["swc", "rust", "javascript", "compiler"], issues: 580 },
+            { rank: 63, owner: "vercel", repo: "swr", stars: 28000, forks: 1800, language: "TypeScript", description: "React Hooks for Data Fetching.", topics: ["swr", "react", "data-fetching", "hooks"], issues: 280 },
+            { rank: 64, owner: "prisma", repo: "prisma", stars: 35000, forks: 3200, language: "TypeScript", description: "Next-generation ORM for Node.js and TypeScript.", topics: ["prisma", "orm", "typescript", "database"], issues: 980 },
+            { rank: 65, owner: "knex", repo: "knex", stars: 18000, forks: 1800, language: "JavaScript", description: "A query builder for PostgreSQL, MySQL, CockroachDB, MSSQL, SQLite3, and Oracle.", topics: ["knex", "query-builder", "javascript", "database"], issues: 320 },
+            { rank: 66, owner: "typeorm", repo: "typeorm", stars: 35000, forks: 6800, language: "TypeScript", description: "ORM for TypeScript and JavaScript (ES7, ES6, ES5).", topics: ["typeorm", "orm", "typescript", "database"], issues: 1200 },
+            { rank: 67, owner: "graphql", repo: "graphql-js", stars: 21000, forks: 3200, language: "JavaScript", description: "A reference implementation of GraphQL for JavaScript.", topics: ["graphql", "javascript", "api"], issues: 280 },
+            { rank: 68, owner: "apollographql", repo: "apollo-client", stars: 20000, forks: 2200, language: "TypeScript", description: "A fully-featured, production ready caching GraphQL client.", topics: ["apollo", "graphql", "react", "client"], issues: 580 },
+            { rank: 69, owner: "nestjs", repo: "graphql", stars: 12000, forks: 1200, language: "TypeScript", description: "GraphQL module for Nest.", topics: ["nestjs", "graphql", "module"], issues: 180 },
+            { rank: 70, owner: "redis", repo: "redis", stars: 64000, forks: 23000, language: "C", description: "Redis is an in-memory database that persists on disk.", topics: ["redis", "database", "c", "nosql"], issues: 1800 },
+            { rank: 71, owner: "postgres", repo: "postgres", stars: 11000, forks: 2800, language: "C", description: "PostgreSQL database system.", topics: ["postgresql", "database", "postgre", "sql"], issues: 1200 },
+            { rank: 72, owner: "elastic", repo: "elasticsearch", stars: 65000, forks: 22000, language: "Java", description: "Open Source, Distributed, RESTful Search Engine.", topics: ["elasticsearch", "java", "search", "lucene"], issues: 2800 },
+            { rank: 73, owner: "mongodb", repo: "mongo", stars: 24000, forks: 4200, language: "C++", description: "The MongoDB Database.", topics: ["mongodb", "database", "nosql", "c++"], issues: 1800 },
+            { rank: 74, owner: "apache", repo: "kafka", stars: 27000, forks: 11000, language: "Java", description: "Distributed event streaming platform.", topics: ["kafka", "streaming", "java", "distributed"], issues: 980 },
+            { rank: 75, owner: "rabbitMQ", repo: "rabbitmq-server", stars: 12000, forks: 3800, language: "Erlang", description: "Open source message broker.", topics: ["rabbitmq", "erlang", "messaging", "amqp"], issues: 580 },
+            { rank: 76, owner: "socketio", repo: "socket.io", stars: 59000, forks: 10000, language: "JavaScript", description: "Realtime application framework for Node.js.", topics: ["socketio", "websocket", "realtime", "nodejs"], issues: 680 },
+            { rank: 77, owner: "socketio", repo: "socket.io-client", stars: 15000, forks: 2800, language: "TypeScript", description: "Client for socket.io.", topics: ["socketio", "websocket", "client"], issues: 280 },
+            { rank: 78, owner: "graphql", repo: "graphql-playground", stars: 12000, forks: 1200, language: "TypeScript", description: "GraphQL IDE for better development workflows.", topics: ["graphql", "ide", "playground"], issues: 180 },
+            { rank: 79, owner: "prisma", repo: "prisma1", stars: 8000, forks: 680, language: "Scala", description: "Next-generation ORM for Node.js and TypeScript (old repo).", topics: ["prisma", "orm"], issues: 320 },
+            { rank: 80, owner: "apache", repo: "spark", stars: 36000, forks: 27000, language: "Scala", description: "Unified analytics engine for large-scale data processing.", topics: ["spark", "scala", "big-data", "analytics"], issues: 1800 },
+            { rank: 81, owner: "apache", repo: "flink", stars: 24000, forks: 13000, language: "Java", description: "Stateful Computations over Data Streams.", topics: ["flink", "java", "streaming", "data-streams"], issues: 780 },
+            { rank: 82, owner: "prestodb", repo: "presto", stars: 15000, forks: 3200, language: "Java", description: "Distributed SQL query engine for big data.", topics: ["presto", "sql", "big-data", "query-engine"], issues: 580 },
+            { rank: 83, owner: "clickhouse", repo: "clickhouse", stars: 36000, forks: 6800, language: "C++", description: "ClickHouse - column-oriented database management system.", topics: ["clickhouse", "database", "analytics", "cpp"], issues: 980 },
+            { rank: 84, owner: "timescale", repo: "timescaledb", stars: 18000, forks: 1400, language: "C", description: "An open-source time-series SQL database.", topics: ["timescaledb", "timeseries", "postgresql", "database"], issues: 420 },
+            { rank: 85, owner: "influxData", repo: "influxdb", stars: 28000, forks: 3200, language: "Go", description: "Scalable datastore for metrics, events, and real-time analytics.", topics: ["influxdb", "timeseries", "go", "database"], issues: 680 },
+            { rank: 86, owner: "grafana", repo: "grafana", stars: 58000, forks: 13000, language: "Go", description: "The open observability platform.", topics: ["grafana", "monitoring", "dashboard", "metrics"], issues: 2800 },
+            { rank: 87, owner: "prometheus", repo: "prometheus", stars: 47000, forks: 8000, language: "Go", description: "The Prometheus monitoring system and time series database.", topics: ["prometheus", "monitoring", "metrics", "go"], issues: 1200 },
+            { rank: 88, owner: "jaegertracing", repo: "jaeger", stars: 20000, forks: 2800, language: "Go", description: "Open source, distributed tracing platform.", topics: ["jaeger", "tracing", "distributed-tracing", "go"], issues: 580 },
+            { rank: 89, owner: "openzipkin", repo: "zipkin", stars: 18000, forks: 3200, language: "Java", description: "Distributed tracing system.", topics: ["zipkin", "tracing", "distributed"], issues: 420 },
+            { rank: 90, owner: "sentry", repo: "sentry", stars: 42000, forks: 5800, language: "Python", description: "Sentry's application monitoring platform.", topics: ["sentry", "error-tracking", "monitoring", "python"], issues: 1800 },
+            { rank: 91, owner: "getsentry", repo: "sentry", stars: 42000, forks: 5800, language: "Python", description: "Sentry error monitoring platform.", topics: ["sentry", "error-tracking"], issues: 1800 },
+            { rank: 92, owner: "bugsnag", repo: "bugsnag-js", stars: 5000, forks: 480, language: "TypeScript", description: "Bugsnag error monitoring for JavaScript.", topics: ["bugsnag", "error-tracking", "javascript"], issues: 120 },
+            { rank: 93, owner: "rollup", repo: "rollup", stars: 26000, forks: 1500, language: "JavaScript", description: "Next-generation ES module bundler.", topics: ["rollup", "bundler", "es-modules", "javascript"], issues: 380 },
+            { rank: 94, owner: "webpack", repo: "webpack", stars: 65000, forks: 8800, language: "JavaScript", description: "Packs modules, assets and create bundles for browsers.", topics: ["webpack", "bundler", "javascript", "module-bundler"], issues: 1800 },
+            { rank: 95, owner: "parcel-bundler", repo: "parcel", stars: 43000, forks: 3200, language: "JavaScript", description: "Blazing fast, zero configuration web application bundler.", topics: ["parcel", "bundler", "zero-config"], issues: 680 },
+            { rank: 96, owner: "vercel", repo: "serve", stars: 8000, forks: 480, language: "JavaScript", description: "Static file serving and directory listing.", topics: ["serve", "static", "server"], issues: 120 },
+            { rank: 97, owner: "turbo", repo: "turbo", stars: 28000, forks: 1800, language: "Rust", description: "Incremental bundler and build system optimized for JavaScript/TypeScript.", topics: ["turbo", "monorepo", "bundler", "rust"], issues: 580 },
+            { rank: 98, owner: "nrwl", repo: "nx", stars: 22000, forks: 2200, language: "TypeScript", description: "Smart, fast, extensible build system with first-class monorepo support.", topics: ["nx", "monorepo", "build-system", "angular"], issues: 980 },
+            { rank: 99, owner: "lerna", repo: "lerna", stars: 38000, forks: 2800, language: "JavaScript", description: "A tool for managing JavaScript projects with multiple packages.", topics: ["lerna", "monorepo", "multi-package"], issues: 680 },
+            { rank: 100, owner: "rushjs", repo: "rush", stars: 8000, forks: 580, language: "TypeScript", description: "A scalable monorepo manager for the web.", topics: ["rush", "monorepo", "javascript"], issues: 280 }
+        ];
+
+        // State management
+        let currentPage = 1;
+        const itemsPerPage = 12;
+        let filteredRepos = [...topRepos];
+
+        // Format number with K/M suffix
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        // Get language color class
+        function getLanguageClass(language) {
+            const langMap = {
+                'JavaScript': 'language-javascript',
+                'TypeScript': 'language-typescript',
+                'Python': 'language-python',
+                'Go': 'language-go',
+                'Rust': 'language-rust',
+                'Java': 'language-java',
+                'C++': 'language-cpp',
+                'C': 'language-c',
+                'Ruby': 'language-ruby',
+                'Swift': 'language-swift',
+                'Kotlin': 'language-kotlin',
+                'PHP': 'language-php',
+                'C#': 'language-csharp',
+                'Shell': 'language-shell',
+                'Scala': 'language-python',
+                'Erlang': 'language-rust'
+            };
+            return langMap[language] || 'language-javascript';
+        }
+
+        // Render featured repos (top 3)
+        function renderFeatured() {
+            const featuredGrid = document.getElementById('featured-grid');
+            const top3 = topRepos.slice(0, 3);
+            
+            featuredGrid.innerHTML = top3.map((repo, index) => `
+                <div class="featured-card" style="animation-delay: ${index * 0.1}s">
+                    <div class="featured-badge">Rank #${repo.rank}</div>
+                    <div class="repo-header">
+                        <div class="repo-avatar">${getRepoEmoji(repo.language)}</div>
+                        <div class="repo-info">
+                            <div class="repo-name">
+                                <a href="https://github.com/${repo.owner}/${repo.repo}" target="_blank">${repo.repo}</a>
+                            </div>
+                            <div class="repo-owner">
+                                <a href="https://github.com/${repo.owner}" target="_blank">${repo.owner}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="repo-description">${repo.description}</p>
+                    <div class="repo-meta">
+                        <div class="meta-item">
+                            <div class="meta-icon star">&#9733;</div>
+                            <span>${formatNumber(repo.stars)}</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon fork">&#8644;</div>
+                            <span>${formatNumber(repo.forks)}</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon language">
+                                <span class="language-dot ${getLanguageClass(repo.language)}"></span>
+                            </div>
+                            <span>${repo.language}</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon issue">&#9888;</div>
+                            <span>${formatNumber(repo.issues)}</span>
+                        </div>
+                    </div>
+                    <div class="repo-topics">
+                        ${repo.topics.slice(0, 3).map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get emoji based on language
+        function getRepoEmoji(language) {
+            const emojiMap = {
+                'JavaScript': '&#x1F7E8;',
+                'TypeScript': '&#x1F535;',
+                'Python': '&#x1F40D;',
+                'Go': '&#x1F980;',
+                'Rust': '&#x1F697;',
+                'Java': '&#x2615;',
+                'C++': '&#x1F535;',
+                'C': '&#x2699;',
+                'Ruby': '&#x1F48E;',
+                'Swift': '&#x1F34E;',
+                'Kotlin': '&#x1F31F;',
+                'PHP': '&#x1F4BB;',
+                'C#': '&#x1F3B5;',
+                'Shell': '&#x1F4C4;',
+                'Scala': '&#x1F4A9;',
+                'Erlang': '&#x1F4A5;'
+            };
+            return emojiMap[language] || '&#x1F4BB;';
+        }
+
+        // Render repo cards
+        function renderRepos() {
+            const repoGrid = document.getElementById('repo-grid');
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageRepos = filteredRepos.slice(start, end);
+            
+            repoGrid.innerHTML = pageRepos.map((repo, index) => `
+                <div class="repo-card" style="animation-delay: ${index * 0.05}s">
+                    <div class="repo-rank ${repo.rank <= 3 ? 'top-3' : ''}">${repo.rank}</div>
+                    <div class="repo-header">
+                        <div class="repo-avatar">${getRepoEmoji(repo.language)}</div>
+                        <div class="repo-info">
+                            <div class="repo-name">
+                                <a href="https://github.com/${repo.owner}/${repo.repo}" target="_blank">${repo.repo}</a>
+                            </div>
+                            <div class="repo-owner">
+                                <a href="https://github.com/${repo.owner}" target="_blank">${repo.owner}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="repo-description">${repo.description}</p>
+                    <div class="repo-meta">
+                        <div class="meta-item">
+                            <div class="meta-icon star">&#9733;</div>
+                            <span>${formatNumber(repo.stars)}</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon fork">&#8644;</div>
+                            <span>${formatNumber(repo.forks)}</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon language">
+                                <span class="language-dot ${getLanguageClass(repo.language)}"></span>
+                            </div>
+                            <span>${repo.language}</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon issue">&#9888;</div>
+                            <span>${formatNumber(repo.issues)}</span>
+                        </div>
+                    </div>
+                    <div class="repo-topics">
+                        ${repo.topics.slice(0, 3).map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredRepos.length / itemsPerPage);
+            
+            let html = '';
+            
+            // Previous button
+            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">&#8592;</button>`;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span style="color: var(--text-muted);">...</span>`;
+                }
+            }
+            
+            // Next button
+            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">&#8594;</button>`;
+            
+            pagination.innerHTML = html;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredRepos.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderRepos();
+            renderPagination();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Search functionality
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            filteredRepos = topRepos.filter(repo => 
+                repo.repo.toLowerCase().includes(query) ||
+                repo.owner.toLowerCase().includes(query) ||
+                repo.description.toLowerCase().includes(query) ||
+                repo.language.toLowerCase().includes(query) ||
+                repo.topics.some(topic => topic.toLowerCase().includes(query))
+            );
+            currentPage = 1;
+            renderRepos();
+            renderPagination();
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // In a real app, this would filter by time period
+                // For demo, we just re-render
+                filteredRepos = [...topRepos];
+                currentPage = 1;
+                renderRepos();
+                renderPagination();
+            });
+        });
+
+        // Update stats
+        function updateStats() {
+            const totalStars = topRepos.reduce((sum, repo) => sum + repo.stars, 0);
+            const totalForks = topRepos.reduce((sum, repo) => sum + repo.forks, 0);
+            
+            document.getElementById('total-stars').textContent = formatNumber(totalStars);
+            document.getElementById('total-forks').textContent = formatNumber(totalForks);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderFeatured();
+            renderRepos();
+            renderPagination();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
