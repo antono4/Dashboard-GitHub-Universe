@@ -257,271 +257,431 @@
             background: radial-gradient(ellipse at center, transparent 0%, rgba(13, 17, 23, 0.4) 100%);
         }
 
-        /* Falling Stars / Meteors */
+        /* ===== Z-Index Layering ===== */
+        /* Background layers - lower z-index */
+        .bg-effects {
+            z-index: 0;
+        }
+        .bg-grid {
+            z-index: 1;
+        }
+        .orb {
+            z-index: 2;
+        }
+        .glow-lines {
+            z-index: 3;
+        }
+        
+        /* Star layers - middle z-index */
+        .stars {
+            z-index: 4;
+        }
+        .star {
+            z-index: 4;
+        }
+        .star-particles {
+            z-index: 5;
+        }
+        .star-particle {
+            z-index: 5;
+        }
+        .glowing-trails {
+            z-index: 5;
+        }
+        .star-trail {
+            z-index: 5;
+        }
+        .meteors {
+            z-index: 6;
+        }
+        .meteor {
+            z-index: 6;
+        }
+        .shooting-stars {
+            z-index: 7;
+        }
+        .shooting-star {
+            z-index: 7;
+        }
+        
+        /* Overlay layers - highest z-index */
+        .noise {
+            z-index: 8;
+        }
+        .vignette {
+            z-index: 9;
+        }
+
+        /* ===== Falling Stars / Meteors ===== */
         .meteors {
             position: absolute;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .meteor {
             position: absolute;
-            background: linear-gradient(to bottom, 
-                transparent 0%, 
-                rgba(255, 255, 255, 0.1) 20%,
-                rgba(255, 255, 255, 0.4) 50%,
-                rgba(88, 166, 255, 0.8) 80%,
-                rgba(255, 255, 255, 1) 100%
-            );
-            border-radius: 50%;
-            animation: meteor 3s linear infinite;
+            animation: meteor linear infinite;
             opacity: 0;
+            will-change: transform, opacity;
         }
 
-        /* Main meteor head */
-        .meteor::before {
-            content: '';
+        /* Meteor body - the glowing head */
+        .meteor-head {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #fff;
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle, #ffffff 0%, #87ceeb 40%, #58a6ff 70%, transparent 100%);
             border-radius: 50%;
-            bottom: -2px;
+            bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             box-shadow: 
-                0 0 10px 3px rgba(255, 255, 255, 0.9),
-                0 0 20px 6px rgba(88, 166, 255, 0.7),
-                0 0 30px 10px rgba(88, 166, 255, 0.4);
+                0 0 4px 2px rgba(255, 255, 255, 1),
+                0 0 8px 4px rgba(135, 206, 235, 0.9),
+                0 0 16px 8px rgba(88, 166, 255, 0.7),
+                0 0 32px 16px rgba(88, 166, 255, 0.4),
+                0 0 64px 24px rgba(88, 166, 255, 0.2);
         }
 
-        /* Meteor trail/tail */
-        .meteor::after {
-            content: '';
+        /* Meteor tail - fading trail */
+        .meteor-tail {
             position: absolute;
-            width: 100px;
+            width: 80px;
             height: 2px;
-            background: linear-gradient(to left, rgba(88, 166, 255, 0.6), transparent);
-            bottom: -1px;
-            left: 4px;
+            bottom: 2px;
+            left: 50%;
             transform-origin: right center;
-            filter: blur(1px);
+            background: linear-gradient(to left, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(135, 206, 235, 0.7) 15%,
+                rgba(88, 166, 255, 0.4) 40%,
+                rgba(88, 166, 255, 0.1) 70%,
+                transparent 100%
+            );
+            border-radius: 2px;
+            filter: blur(0.5px);
         }
 
-        /* Individual meteor styles */
-        .meteor:nth-child(1) { left: 8%; top: -80px; width: 2px; height: 70px; animation-delay: 0s; animation-duration: 2.2s; }
-        .meteor:nth-child(2) { left: 22%; top: -80px; width: 2px; height: 90px; animation-delay: 0.8s; animation-duration: 2.8s; }
-        .meteor:nth-child(3) { left: 35%; top: -80px; width: 3px; height: 100px; animation-delay: 1.6s; animation-duration: 2.5s; }
-        .meteor:nth-child(4) { left: 48%; top: -80px; width: 2px; height: 80px; animation-delay: 2.4s; animation-duration: 3s; }
-        .meteor:nth-child(5) { left: 62%; top: -80px; width: 2px; height: 75px; animation-delay: 0.4s; animation-duration: 2.6s; }
-        .meteor:nth-child(6) { left: 75%; top: -80px; width: 3px; height: 95px; animation-delay: 1.2s; animation-duration: 2.4s; }
-        .meteor:nth-child(7) { left: 88%; top: -80px; width: 2px; height: 85px; animation-delay: 2s; animation-duration: 2.9s; }
-        .meteor:nth-child(8) { left: 5%; top: -80px; width: 2px; height: 65px; animation-delay: 2.8s; animation-duration: 2.7s; }
-        .meteor:nth-child(9) { left: 42%; top: -80px; width: 2px; height: 70px; animation-delay: 1s; animation-duration: 3.1s; }
-        .meteor:nth-child(10) { left: 92%; top: -80px; width: 2px; height: 80px; animation-delay: 3.2s; animation-duration: 2.3s; }
+        /* Individual meteor styles with realistic sizing */
+        .meteor:nth-child(1) { left: 5%; top: -60px; animation-delay: 0s; animation-duration: 1.8s; }
+        .meteor:nth-child(1) .meteor-head { width: 6px; height: 6px; }
+        .meteor:nth-child(1) .meteor-tail { width: 100px; }
+
+        .meteor:nth-child(2) { left: 18%; top: -60px; animation-delay: 2.5s; animation-duration: 2.2s; }
+        .meteor:nth-child(2) .meteor-head { width: 4px; height: 4px; }
+        .meteor:nth-child(2) .meteor-tail { width: 70px; }
+
+        .meteor:nth-child(3) { left: 32%; top: -60px; animation-delay: 1.2s; animation-duration: 1.9s; }
+        .meteor:nth-child(3) .meteor-head { width: 5px; height: 5px; }
+        .meteor:nth-child(3) .meteor-tail { width: 90px; }
+
+        .meteor:nth-child(4) { left: 48%; top: -60px; animation-delay: 3.8s; animation-duration: 2.1s; }
+        .meteor:nth-child(4) .meteor-head { width: 4px; height: 4px; }
+        .meteor:nth-child(4) .meteor-tail { width: 75px; }
+
+        .meteor:nth-child(5) { left: 62%; top: -60px; animation-delay: 0.8s; animation-duration: 1.7s; }
+        .meteor:nth-child(5) .meteor-head { width: 5px; height: 5px; }
+        .meteor:nth-child(5) .meteor-tail { width: 85px; }
+
+        .meteor:nth-child(6) { left: 78%; top: -60px; animation-delay: 4.5s; animation-duration: 2s; }
+        .meteor:nth-child(6) .meteor-head { width: 6px; height: 6px; }
+        .meteor:nth-child(6) .meteor-tail { width: 95px; }
+
+        .meteor:nth-child(7) { left: 90%; top: -60px; animation-delay: 2.9s; animation-duration: 1.85s; }
+        .meteor:nth-child(7) .meteor-head { width: 4px; height: 4px; }
+        .meteor:nth-child(7) .meteor-tail { width: 65px; }
+
+        .meteor:nth-child(8) { left: 12%; top: -60px; animation-delay: 5.2s; animation-duration: 2.3s; }
+        .meteor:nth-child(8) .meteor-head { width: 5px; height: 5px; }
+        .meteor:nth-child(8) .meteor-tail { width: 80px; }
 
         @keyframes meteor {
             0% {
-                transform: translateY(0) translateX(0) rotate(35deg);
+                transform: translateY(0) translateX(0) rotate(55deg);
                 opacity: 0;
             }
-            3% {
+            2% {
+                opacity: 1;
+            }
+            8% {
                 opacity: 1;
             }
             25% {
-                opacity: 1;
+                opacity: 0.9;
             }
-            60% {
-                opacity: 0.6;
+            50% {
+                opacity: 0.7;
+            }
+            75% {
+                opacity: 0.4;
             }
             100% {
-                transform: translateY(110vh) translateX(80px) rotate(35deg);
+                transform: translateY(120vh) translateX(120px) rotate(55deg);
                 opacity: 0;
             }
         }
 
-        /* Different angles */
-        .meteor:nth-child(odd) {
+        /* Different meteor angles */
+        .meteor:nth-child(even) {
             animation-name: meteor2;
         }
 
         @keyframes meteor2 {
             0% {
-                transform: translateY(0) translateX(0) rotate(-35deg);
+                transform: translateY(0) translateX(0) rotate(-55deg);
+                opacity: 0;
+            }
+            2% {
+                opacity: 1;
+            }
+            8% {
+                opacity: 1;
+            }
+            25% {
+                opacity: 0.9;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            75% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(120vh) translateX(-120px) rotate(-55deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Shooting Stars ===== */
+        .shooting-stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .shooting-star {
+            position: absolute;
+            opacity: 0;
+            will-change: transform, opacity;
+        }
+
+        .shooting-star-body {
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #ffffff 0%, #ffffff 50%, rgba(135, 206, 250, 0.8) 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 6px 3px rgba(255, 255, 255, 1),
+                0 0 12px 6px rgba(135, 206, 250, 0.8),
+                0 0 24px 12px rgba(135, 206, 250, 0.5),
+                0 0 48px 20px rgba(88, 166, 255, 0.3);
+        }
+
+        .shooting-star-trail {
+            position: absolute;
+            width: 120px;
+            height: 2px;
+            right: 4px;
+            top: 1px;
+            background: linear-gradient(to left,
+                rgba(255, 255, 255, 1) 0%,
+                rgba(255, 255, 255, 0.8) 10%,
+                rgba(135, 206, 235, 0.5) 30%,
+                rgba(88, 166, 255, 0.2) 60%,
+                transparent 100%
+            );
+            border-radius: 2px;
+            transform-origin: right center;
+        }
+
+        .shooting-star:nth-child(1) { left: -150px; top: 8%; animation: shootStar1 5s ease-in-out infinite; }
+        .shooting-star:nth-child(2) { left: -150px; top: 22%; animation: shootStar2 6s ease-in-out infinite; animation-delay: 1.5s; }
+        .shooting-star:nth-child(3) { left: -150px; top: 42%; animation: shootStar3 5.5s ease-in-out infinite; animation-delay: 3s; }
+        .shooting-star:nth-child(4) { left: -150px; top: 65%; animation: shootStar4 6.5s ease-in-out infinite; animation-delay: 4.5s; }
+        .shooting-star:nth-child(5) { left: -150px; top: 85%; animation: shootStar5 5.2s ease-in-out infinite; animation-delay: 2.2s; }
+
+        @keyframes shootStar1 {
+            0% { transform: translateX(0) translateY(0) rotate(-12deg); opacity: 0; }
+            3% { opacity: 1; }
+            20% { opacity: 1; }
+            40% { opacity: 0.6; }
+            50% { transform: translateX(110vw) translateY(25vw) rotate(-12deg); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes shootStar2 {
+            0% { transform: translateX(0) translateY(0) rotate(-18deg); opacity: 0; }
+            3% { opacity: 1; }
+            15% { opacity: 1; }
+            35% { opacity: 0.7; }
+            45% { transform: translateX(120vw) translateY(40vw) rotate(-18deg); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes shootStar3 {
+            0% { transform: translateX(0) translateY(0) rotate(-10deg); opacity: 0; }
+            2% { opacity: 1; }
+            18% { opacity: 1; }
+            38% { opacity: 0.5; }
+            48% { transform: translateX(115vw) translateY(30vw) rotate(-10deg); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes shootStar4 {
+            0% { transform: translateX(0) translateY(0) rotate(-15deg); opacity: 0; }
+            4% { opacity: 1; }
+            22% { opacity: 0.9; }
+            42% { opacity: 0.4; }
+            52% { transform: translateX(105vw) translateY(35vw) rotate(-15deg); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes shootStar5 {
+            0% { transform: translateX(0) translateY(0) rotate(-8deg); opacity: 0; }
+            3% { opacity: 1; }
+            20% { opacity: 0.8; }
+            40% { opacity: 0.5; }
+            50% { transform: translateX(125vw) translateY(20vw) rotate(-8deg); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* ===== Star Particles ===== */
+        .star-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .star-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, #ffffff 0%, rgba(200, 220, 255, 0.6) 50%, transparent 100%);
+            border-radius: 50%;
+            opacity: 0;
+            will-change: transform, opacity;
+            box-shadow: 
+                0 0 4px 2px rgba(255, 255, 255, 0.8),
+                0 0 8px 4px rgba(135, 206, 250, 0.5);
+        }
+
+        .star-particle:nth-child(1) { left: 8%; animation: particleFall 3.5s linear infinite; animation-delay: 0s; }
+        .star-particle:nth-child(2) { left: 16%; animation: particleFall 4s linear infinite; animation-delay: 0.7s; }
+        .star-particle:nth-child(3) { left: 24%; animation: particleFall 3.2s linear infinite; animation-delay: 1.4s; }
+        .star-particle:nth-child(4) { left: 32%; animation: particleFall 3.8s linear infinite; animation-delay: 2.1s; }
+        .star-particle:nth-child(5) { left: 40%; animation: particleFall2 4.2s linear infinite; animation-delay: 0.3s; }
+        .star-particle:nth-child(6) { left: 48%; animation: particleFall 3.6s linear infinite; animation-delay: 1s; }
+        .star-particle:nth-child(7) { left: 56%; animation: particleFall2 3.4s linear infinite; animation-delay: 1.7s; }
+        .star-particle:nth-child(8) { left: 64%; animation: particleFall 4.5s linear infinite; animation-delay: 2.4s; }
+        .star-particle:nth-child(9) { left: 72%; animation: particleFall2 3.9s linear infinite; animation-delay: 0.5s; }
+        .star-particle:nth-child(10) { left: 80%; animation: particleFall 3.3s linear infinite; animation-delay: 1.2s; }
+        .star-particle:nth-child(11) { left: 88%; animation: particleFall2 4.1s linear infinite; animation-delay: 1.9s; }
+        .star-particle:nth-child(12) { left: 96%; animation: particleFall 3.7s linear infinite; animation-delay: 2.6s; }
+
+        @keyframes particleFall {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.9;
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(50vh) translateX(-20px) scale(1.2);
+            }
+            95% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(100vh) translateX(-40px) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes particleFall2 {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.85;
+            }
+            50% {
+                opacity: 0.75;
+                transform: translateY(50vh) translateX(20px) scale(1.1);
+            }
+            95% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(100vh) translateX(40px) scale(0.9);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Glowing Star Trails ===== */
+        .glowing-trails {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .star-trail {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle, #ffffff 0%, rgba(135, 206, 250, 0.8) 40%, transparent 100%);
+            border-radius: 50%;
+            opacity: 0;
+            will-change: transform, opacity;
+            box-shadow: 
+                0 0 8px 4px rgba(255, 255, 255, 0.9),
+                0 0 16px 8px rgba(135, 206, 250, 0.6),
+                0 0 32px 16px rgba(88, 166, 255, 0.3);
+        }
+
+        .star-trail:nth-child(1) { left: 15%; animation: glowingTrail 4.5s linear infinite; animation-delay: 0s; }
+        .star-trail:nth-child(2) { left: 35%; animation: glowingTrail2 5s linear infinite; animation-delay: 1.5s; }
+        .star-trail:nth-child(3) { left: 55%; animation: glowingTrail 4.2s linear infinite; animation-delay: 3s; }
+        .star-trail:nth-child(4) { left: 75%; animation: glowingTrail2 4.8s linear infinite; animation-delay: 4.5s; }
+        .star-trail:nth-child(5) { left: 92%; animation: glowingTrail 5.2s linear infinite; animation-delay: 2.2s; }
+
+        @keyframes glowingTrail {
+            0% {
+                transform: translateY(0) translateX(0);
                 opacity: 0;
             }
             3% {
                 opacity: 1;
             }
-            25% {
-                opacity: 1;
-            }
-            60% {
+            97% {
                 opacity: 0.6;
             }
             100% {
-                transform: translateY(110vh) translateX(-80px) rotate(-35deg);
+                transform: translateY(100vh) translateX(-60px);
                 opacity: 0;
             }
         }
 
-        /* Shooting Star - Extra dramatic */
-        .shooting-star {
-            position: absolute;
-            width: 150px;
-            height: 2px;
-            background: linear-gradient(to right, 
-                transparent 0%, 
-                rgba(255, 255, 255, 0.2) 30%,
-                rgba(255, 255, 255, 0.6) 60%,
-                rgba(255, 255, 255, 1) 100%
-            );
-            border-radius: 100px;
-            animation: shootingStar 4s ease-in-out infinite;
-            opacity: 0;
-        }
-
-        .shooting-star::before {
-            content: '';
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #fff;
-            border-radius: 50%;
-            right: -3px;
-            top: -2px;
-            box-shadow: 
-                0 0 15px 5px rgba(255, 255, 255, 0.9),
-                0 0 30px 10px rgba(135, 206, 250, 0.6),
-                0 0 50px 15px rgba(135, 206, 250, 0.3);
-        }
-
-        .shooting-star:nth-child(1) { left: -150px; top: 15%; animation-delay: 0s; }
-        .shooting-star:nth-child(2) { left: -150px; top: 35%; animation-delay: 1.5s; }
-        .shooting-star:nth-child(3) { left: -150px; top: 55%; animation-delay: 3s; }
-        .shooting-star:nth-child(4) { left: -150px; top: 75%; animation-delay: 4.5s; }
-        .shooting-star:nth-child(5) { left: -150px; top: 25%; animation-delay: 2.2s; }
-        .shooting-star:nth-child(6) { left: -150px; top: 45%; animation-delay: 5.5s; }
-
-        @keyframes shootingStar {
-            0% {
-                transform: translateX(0) translateY(0) rotate(-15deg);
-                opacity: 0;
-            }
-            5% {
-                opacity: 1;
-            }
-            30% {
-                opacity: 1;
-            }
-            70% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateX(110vw) translateY(30vw) rotate(-15deg);
-                opacity: 0;
-            }
-        }
-
-        /* Star particles container */
-        .star-particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        /* Shooting stars container */
-        .shooting-stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        /* Glowing trails container */
-        .glowing-trails {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        /* Falling star particles */
-        .star-particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: radial-gradient(circle, #fff 0%, rgba(135, 206, 250, 0.8) 50%, transparent 100%);
-            border-radius: 50%;
-            animation: starFall linear infinite;
-            box-shadow: 
-                0 0 8px 3px rgba(255, 255, 255, 0.5),
-                0 0 15px 5px rgba(135, 206, 250, 0.3);
-        }
-
-        .star-particle:nth-child(1) { left: 5%; top: -10px; animation-duration: 2.5s; animation-delay: 0s; }
-        .star-particle:nth-child(2) { left: 15%; top: -10px; animation-duration: 3s; animation-delay: 0.5s; }
-        .star-particle:nth-child(3) { left: 25%; top: -10px; animation-duration: 2.8s; animation-delay: 1s; }
-        .star-particle:nth-child(4) { left: 35%; top: -10px; animation-duration: 3.2s; animation-delay: 1.5s; }
-        .star-particle:nth-child(5) { left: 45%; top: -10px; animation-duration: 2.6s; animation-delay: 2s; }
-        .star-particle:nth-child(6) { left: 55%; top: -10px; animation-duration: 3s; animation-delay: 2.5s; }
-        .star-particle:nth-child(7) { left: 65%; top: -10px; animation-duration: 2.7s; animation-delay: 0.3s; }
-        .star-particle:nth-child(8) { left: 75%; top: -10px; animation-duration: 3.1s; animation-delay: 0.8s; }
-        .star-particle:nth-child(9) { left: 85%; top: -10px; animation-duration: 2.9s; animation-delay: 1.3s; }
-        .star-particle:nth-child(10) { left: 95%; top: -10px; animation-duration: 3.3s; animation-delay: 1.8s; }
-        .star-particle:nth-child(11) { left: 10%; top: -10px; animation-duration: 2.4s; animation-delay: 2.3s; }
-        .star-particle:nth-child(12) { left: 50%; top: -10px; animation-duration: 2.8s; animation-delay: 2.8s; }
-
-        @keyframes starFall {
-            0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) translateX(-30px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Glowing dots trail */
-        .star-trail {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #fff;
-            border-radius: 50%;
-            animation: starTrail linear infinite;
-            box-shadow: 
-                0 0 6px 2px rgba(255, 255, 255, 0.8),
-                0 0 12px 4px rgba(88, 166, 255, 0.5);
-        }
-
-        .star-trail:nth-child(1) { left: 20%; top: -10px; animation-duration: 4s; animation-delay: 0s; }
-        .star-trail:nth-child(2) { left: 40%; top: -10px; animation-duration: 4.5s; animation-delay: 1s; }
-        .star-trail:nth-child(3) { left: 60%; top: -10px; animation-duration: 3.8s; animation-delay: 2s; }
-        .star-trail:nth-child(4) { left: 80%; top: -10px; animation-duration: 4.2s; animation-delay: 3s; }
-
-        @keyframes starTrail {
+        @keyframes glowingTrail2 {
             0% {
                 transform: translateY(0) translateX(0);
                 opacity: 0;
             }
-            5% {
+            3% {
                 opacity: 1;
             }
-            95% {
-                opacity: 1;
+            97% {
+                opacity: 0.5;
             }
             100% {
-                transform: translateY(100vh) translateX(50px);
+                transform: translateY(100vh) translateX(60px);
                 opacity: 0;
             }
         }
@@ -1221,27 +1381,63 @@
         </div>
         <!-- Falling Stars / Meteors -->
         <div class="meteors">
-            <div class="meteor"></div>
-            <div class="meteor"></div>
-            <div class="meteor"></div>
-            <div class="meteor"></div>
-            <div class="meteor"></div>
-            <div class="meteor"></div>
-            <div class="meteor"></div>
-            <div class="meteor"></div>
-            <div class="meteor"></div>
-            <div class="meteor"></div>
+            <div class="meteor">
+                <div class="meteor-head"></div>
+                <div class="meteor-tail"></div>
+            </div>
+            <div class="meteor">
+                <div class="meteor-head"></div>
+                <div class="meteor-tail"></div>
+            </div>
+            <div class="meteor">
+                <div class="meteor-head"></div>
+                <div class="meteor-tail"></div>
+            </div>
+            <div class="meteor">
+                <div class="meteor-head"></div>
+                <div class="meteor-tail"></div>
+            </div>
+            <div class="meteor">
+                <div class="meteor-head"></div>
+                <div class="meteor-tail"></div>
+            </div>
+            <div class="meteor">
+                <div class="meteor-head"></div>
+                <div class="meteor-tail"></div>
+            </div>
+            <div class="meteor">
+                <div class="meteor-head"></div>
+                <div class="meteor-tail"></div>
+            </div>
+            <div class="meteor">
+                <div class="meteor-head"></div>
+                <div class="meteor-tail"></div>
+            </div>
         </div>
         <!-- Shooting Stars -->
         <div class="shooting-stars">
-            <div class="shooting-star"></div>
-            <div class="shooting-star"></div>
-            <div class="shooting-star"></div>
-            <div class="shooting-star"></div>
-            <div class="shooting-star"></div>
-            <div class="shooting-star"></div>
+            <div class="shooting-star">
+                <div class="shooting-star-body"></div>
+                <div class="shooting-star-trail"></div>
+            </div>
+            <div class="shooting-star">
+                <div class="shooting-star-body"></div>
+                <div class="shooting-star-trail"></div>
+            </div>
+            <div class="shooting-star">
+                <div class="shooting-star-body"></div>
+                <div class="shooting-star-trail"></div>
+            </div>
+            <div class="shooting-star">
+                <div class="shooting-star-body"></div>
+                <div class="shooting-star-trail"></div>
+            </div>
+            <div class="shooting-star">
+                <div class="shooting-star-body"></div>
+                <div class="shooting-star-trail"></div>
+            </div>
         </div>
-        <!-- Star Particles with Trails -->
+        <!-- Star Particles -->
         <div class="star-particles">
             <div class="star-particle"></div>
             <div class="star-particle"></div>
@@ -1258,6 +1454,7 @@
         </div>
         <!-- Glowing Star Trails -->
         <div class="glowing-trails">
+            <div class="star-trail"></div>
             <div class="star-trail"></div>
             <div class="star-trail"></div>
             <div class="star-trail"></div>
